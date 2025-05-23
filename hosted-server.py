@@ -81,6 +81,14 @@ def upload_entries():
         "total_entries": len(entries)
     }), 201
 
+@app.route('/health-check')
+def health_check():
+    return jsonify({
+        "status": "ok",
+        "timestamp": time.time(),
+        "entries_count": len(entries)
+    }), 200
+
 def start_server():
     print(f"Server running on port {PORT}")
     serve(
