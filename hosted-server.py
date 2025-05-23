@@ -17,7 +17,7 @@ import time
 # Flask app
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
-PORT = int(os.environ.get('SERVER_PORT', 5000))
+PORT = int(os.environ.get('PORT', 5000))
 UPLOAD_PASSWORD = os.environ.get('UPLOAD_PASSWORD', '')
 UPLOAD_DEBUG = os.environ.get('UPLOAD_DEBUG', '')
 entries = []
