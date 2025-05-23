@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LAMPA - Skatuve DOTS</title>
+    <style>
+        :root {
+            --margin: 16px;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 18px;
+            margin: var(--margin);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: calc(100vh - var(--margin) * 2);
+        }
+
+        h1 {
+            font-size: 1.75em;
+            color: #06454d;
+            margin: 0 0 0.5em 0;
+        }
+
+        a {
+            color: #067993;
+        }
+
+        #talkTitle {
+            font-size: 20px;
+            font-weight: bold;
+            color: #067993;
+        }
+
+        #transcripts, #translations {
+            height: 100%;
+            margin-top: var(--margin);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            overflow-y: auto;
+        }
+
+        .entry {
+            margin-bottom: calc(var(--margin) / 2);
+        }
+
+        #footer {
+            margin-top: var(--margin);
+            font-size: 12px;
+            color: #666;
+        }
+
+        #settingsButton {
+            padding: 8px 12px;
+            position: absolute;
+            right: var(--margin);
+            bottom: var(--margin);
+            background-color: #067993;
+            color: #fff;
+            font-size: 18px;
+            font-weight: 500;
+            text-decoration: none;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+        }
+
+        #settingsButton:hover {
+            background-color: #078cad;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transform: translateY(-2px);
+        }
+
+        #settingsButton:active {
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            transform: translateY(1px);
+        }
+
+        #settings {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            width: fit-content;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>LAMPA - Skatuve DOTS</h1>
+
+<!--        <label for="serverUrl">Server URL:</label>-->
+<!--        <input type="text" id="serverUrl" value="http://localhost:5000" style="width: 300px;">-->
+<!--        <button id="startButton">Start</button>-->
+
+        <div id="talkTitle">
+            9:00 - 10:00 Zelta formulas meklējumi “Kā AUGT, mācoties mūža garumā”
+        </div>
+    </header>
+
+    <div id="transcripts">
+        <!-- TODO DEBUG -->
+        <div class="entry">Lorem ipsūm dolor siķ āmēt, consectetur ādipiscīng elīt. Drņec tempus, nībh nec rūtrūm mātņis, ērat sapīen ūllāmčorper quām, quīs mālēsūda enīm māurīs sed orši. Nūllām vīverrā porttiķor quām, āc solīcitūdīn diām vārius egēt.</div>
+    </div>
+
+    <div id="translations">
+        <!-- TODO DEBUG -->
+        <div class="entry">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tempus, nibh nec rutrum mattis, erat sapien ullamcorper quam, quis malesuada enim mauris sed orci. Nullam viverra porttitor quam, ac sollicitudin diam varius eget.</div>
+    </div>
+
+    <div id="footer">
+        Darbina Balsu talka.<br> Lai uzlabotu rīka kvalitāti, <a href="http://balsutalka.lv">ieraksti</a> savu balsi!
+
+        <div id="settingsButton">Rādīt ⚙</div>
+        <div id="settings">
+            <h2>Iestatījumi</h2>
+            <label class="toggle-switch">
+                <input type="checkbox" id="showTranscriptToggle" checked>
+                <span class="slider"></span>
+                <span class="toggle-label">Rādīt runāto</span>
+            </label>
+            <label class="toggle-switch">
+                <input type="checkbox" id="showTranslationToggle" checked>
+                <span class="slider"></span>
+                <span class="toggle-label">Rādīt tulkojumu</span>
+            </label>
+            <style>
+                #settings h2 {
+                    margin: var(--margin) 0 0 0;
+                }
+
+                .toggle-switch {
+                  position: relative;
+                  display: flex;
+                  align-items: center;
+                  cursor: pointer;
+                  margin: 4px 0;
+                }
+
+                .toggle-switch input {
+                  opacity: 0;
+                  width: 0;
+                  height: 0;
+                }
+
+                .slider {
+                  position: relative;
+                  display: inline-block;
+                  width: 40px;
+                  height: 20px;
+                  background-color: #ccc;
+                  border-radius: 20px;
+                  margin-right: 10px;
+                  transition: .3s;
+                }
+
+                .slider:before {
+                  position: absolute;
+                  content: "";
+                  height: 16px;
+                  width: 16px;
+                  left: 2px;
+                  bottom: 2px;
+                  background-color: white;
+                  border-radius: 50%;
+                  transition: .3s;
+                }
+
+                input:checked + .slider {
+                  background-color: #067993;
+                }
+
+                input:checked + .slider:before {
+                  transform: translateX(20px);
+                }
+
+                .toggle-label {
+                  font-size: 18px;
+                  height: 20px;
+                  line-height: 20px;
+                }
+            </style>
+            <script>
+                document.getElementById('showTranscriptToggle').addEventListener('change', function() {
+                  document.getElementById('transcripts').style.display = this.checked ? 'block' : 'none';
+                });
+
+                document.getElementById('showTranslationToggle').addEventListener('change', function() {
+                  document.getElementById('translations').style.display = this.checked ? 'block' : 'none';
+                });
+            </script>
+        </div>
+    </div>
+
+    <script>
+        let lastTimestamp = 0;
+
+        // TODO DEBUG / SETTINGS
+        //document.getElementById('startButton').addEventListener('click', () => {
+        //    const serverUrl = document.getElementById('serverUrl').value.trim();
+        //    if (!serverUrl) {
+        //        alert('Please enter a valid server URL.');
+        //        return;
+        //    }
+        //
+        //    fetchEntries(serverUrl);
+        //
+        //    setInterval(() => fetchEntries(serverUrl), 1000);
+        //});
+
+        function fetchEntries(serverUrl) {
+            const url = `${serverUrl}?timestamp=${lastTimestamp}`;
+            fetch(url, {
+                headers: {
+                    'ngrok-skip-browser-warning': 'true'
+                }
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('No new transcripts or server error.');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (Array.isArray(data)) {
+                        appendEntries(data);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching transcripts:', error);
+                });
+        }
+
+        function appendEntries(entries) {
+            const transcriptsContainer = document.getElementById('transcripts');
+            const translationsContainer = document.getElementById('translations');
+            entries.forEach(entry => {
+                const entryDiv = document.createElement('div');
+                entryDiv.className = 'entry';
+                entryDiv.textContent = entry.text;
+
+                if (entry.kind === "transcript") {
+                    transcriptsContainer.appendChild(entryDiv);
+                } else if (entry.kind === "translation") {
+                    translationsContainer.appendChild(entryDiv);
+                }
+
+                lastTimestamp = Math.max(lastTimestamp, entry.timestamp);
+            });
+
+            transcriptsContainer.scrollTop = transcriptsContainer.scrollHeight;
+            translationsContainer.scrollTop = translationsContainer.scrollHeight;
+        }
+
+        document.getElementById('settingsButton').addEventListener('click', () => {
+            const settingsDiv = document.getElementById('settings');
+
+            if (settingsDiv.style.display === 'flex') {
+                settingsDiv.style.display = 'none';
+            } else {
+                settingsDiv.style.display = 'flex';
+            }
+        });
+    </script>
+
+    <!-- TODO DEBUG -->
+    <!-- Script for demo mode -->
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+
+        if (urlParams.has("demo")) {
+            const sampleTexts = [
+                { kind: "transcript", text: "Lorēm ipsūm dolor siķ āmēt, consectetur ādipiscīng elīt. Drņec tempus, nībh nec rūtrūm mātņis, ērat sapīen ūllāmčorper quām, quīs mālēsūda enīm māurīs sed orši. Nūllām vīverrā porttiķor quām, āc solīcitūdīn diām vārius egēt." },
+                { kind: "translation", text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tempus, nibh nec rutrum mattis, erat sapien ullamcorper quam, quis malesuada enim mauris sed orci. Nullam viverra porttitor quam, ac sollicitudin diam varius eget." }
+            ];
+
+            function addRandomEntry() {
+                const entry = { ...sampleTexts[Math.floor(Math.random() * sampleTexts.length)] };
+                const words = entry.text.split(" ");
+                for (let i = words.length - 1; i >= 0; i--) {
+                    if (Math.random() < 0.5) {
+                        words.splice(i, 1);
+                    }
+                }
+                entry.text = words.join(" ");
+                entry.timestamp = Date.now();
+                appendEntries([entry]);
+            }
+
+            (function loop() {
+                addRandomEntry();
+                setTimeout(loop, Math.random() * 1000 + 1500);
+            })();
+        }
+    </script>
+</body>
+</html>

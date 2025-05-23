@@ -23,6 +23,10 @@ UPLOAD_DEBUG = os.environ.get('UPLOAD_DEBUG', '')
 entries = []
 
 @app.route('/')
+def serve_client():
+    return send_file('client.html')
+
+@app.route('/entries')
 def serve_entries():
     timestamp = request.args.get('timestamp', type=float)
     if timestamp is not None:  # Explicitly check for None
@@ -31,7 +35,7 @@ def serve_entries():
             return jsonify(filtered_entries)
         return jsonify([]), 200
     if entries:
-        return jsonify(entries[-6:])  # Return the last few entries as JSON
+        return jsonify(entries[-6:])
     return jsonify({"error": "No entries found"}), 404
 
 
