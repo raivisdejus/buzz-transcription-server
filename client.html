@@ -257,8 +257,6 @@
         let lastTimestamp = 0;
         const serverUrl = 'https://buzz-transcription-server.onrender.com/entries';
 
-        window.refreshInterval = setInterval(() => fetchEntries(serverUrl), 1000);
-
         function fetchEntries(serverUrl) {
             const url = `${serverUrl}?timestamp=${lastTimestamp}`;
             fetch(url, {
@@ -312,6 +310,8 @@
                 settingsDiv.style.display = 'flex';
             }
         });
+
+        window.refreshInterval = setInterval(() => fetchEntries(serverUrl), 1000);
     </script>
 
     <!-- Set talk title -->
@@ -391,7 +391,7 @@
                     entries.push({
                         kind: "transcript",
                         text: `${day}. ${monthNames[month]}:`,
-                        timestamp: Date.now() + 1
+                        timestamp: 1
                     });
                 }
 
@@ -403,7 +403,7 @@
                 entries.push({
                     kind: "transcript",
                     text: `${startTime}-${endTime} ${title}`,
-                    timestamp: Date.now() + 2
+                    timestamp: 1
                 });
             });
 
