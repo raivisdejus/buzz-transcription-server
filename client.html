@@ -96,18 +96,16 @@
         <h1>LAMPA - Izglītības skatuve</h1>
 
         <div id="talkTitle">
-            9:00 - 10:00 Zelta formulas meklējumi “Kā AUGT, mācoties mūža garumā”
+            20. un 21. jūnijs, Cēsu pils laukums
         </div>
     </header>
 
     <div id="transcripts">
-        <!-- TODO DEBUG -->
-        <div class="entry">Lorem ipsūm dolor siķ āmēt, consectetur ādipiscīng elīt. Drņec tempus, nībh nec rūtrūm mātņis, ērat sapīen ūllāmčorper quām, quīs mālēsūda enīm māurīs sed orši. Nūllām vīverrā porttiķor quām, āc solīcitūdīn diām vārius egēt.</div>
+        <!--<div class="entry">Lorem ipsūm dolor siķ āmēt, consectetur ādipiscīng elīt. Drņec tempus, nībh nec rūtrūm mātņis, ērat sapīen ūllāmčorper quām, quīs mālēsūda enīm māurīs sed orši. Nūllām vīverrā porttiķor quām, āc solīcitūdīn diām vārius egēt.</div>-->
     </div>
 
     <div id="translations" style="display: none;">
-        <!-- TODO DEBUG -->
-        <div class="entry">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tempus, nibh nec rutrum mattis, erat sapien ullamcorper quam, quis malesuada enim mauris sed orci. Nullam viverra porttitor quam, ac sollicitudin diam varius eget.</div>
+        <!--<div class="entry">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tempus, nibh nec rutrum mattis, erat sapien ullamcorper quam, quis malesuada enim mauris sed orci. Nullam viverra porttitor quam, ac sollicitudin diam varius eget.</div>-->
     </div>
 
     <div id="footer">
@@ -254,11 +252,12 @@
         </div>
     </div>
 
+    <!-- Transcript display -->
     <script>
         let lastTimestamp = 0;
-        const serverUrl = 'http://localhost:3000/entries';
+        const serverUrl = 'https://buzz-transcription-server.onrender.com/entries';
 
-        // setInterval(() => fetchEntries(serverUrl), 1000);
+        window.refreshInterval = setInterval(() => fetchEntries(serverUrl), 1000);
 
         function fetchEntries(serverUrl) {
             const url = `${serverUrl}?timestamp=${lastTimestamp}`;
@@ -315,7 +314,103 @@
         });
     </script>
 
-    <!-- TODO DEBUG -->
+    <!-- Set talk title -->
+    <script>
+        const eventStartDate = new Date("2025-06-20T12:00:00");
+        const talkTiles = [
+            // from, to, title
+            // 20. junijs
+            ["2025-06-20T12:30:00", "2025-06-20T13:30:00", 'Diskusija "No sapņa līdz murgam – kāpēc jaunie skolotāji pamet darbu skolā?"'],
+            ["2025-06-20T14:00:00", "2025-06-20T15:00:00", 'Diskusija "Kāpēc jaunieši izvēlas vai neizvēlas studijas un karjeru STEAM un IT jomā?"'],
+            ["2025-06-20T15:30:00", "2025-06-20T16:30:00", 'Diskusija "STEMu tiešām zina, ja vispirms domā un dara"'],
+            ["2025-06-20T17:00:00", "2025-06-20T18:00:00", 'Diskusija "Apzinātība bez vīraka - izdzīvošanas prasme modernā pasaulē"'],
+            ["2025-06-20T18:30:00", "2025-06-20T19:30:00", 'Saruna "Apaļais galds: skolas uzdevumi"'],
+            ["2025-06-20T20:00:00", "2025-06-20T21:00:00", 'Diskusija "Izglītība pēc 50 – no stereotipiem uz iespējām"'],
+            ["2025-06-20T21:30:00", "2025-06-20T22:30:00", 'Diskusija "Jāsāk beidzot rakstīt! Radošā rakstniecība kā obligāts priekšmets skolā?"'],
+            // 21. junijs
+            ["2025-06-21T11:00:00", "2025-06-21T12:00:00", 'Diskusija un vingrošana "Aptaukošanās epidēmija sākas skolā – vai sporta stundas ir mūsu valsts vienīgā cerība?"'],
+            ["2025-06-21T12:30:00", "2025-06-21T13:30:00", 'Saruna "Mūžizglītība un pārkvalifikācija: kā atbalstīt vīriešus izglītībā?"'],
+            ["2025-06-21T14:00:00", "2025-06-21T15:00:00", 'Saruna "Prast naudu: kā aug finanšu pratība?"'],
+            ["2025-06-21T15:30:00", "2025-06-21T16:30:00", 'Karjeras detektīvs "Ja man vēlreiz būtu 17 gadi"'],
+            ["2025-06-21T17:00:00", "2025-06-21T18:00:00", 'Diskusija "Nākotnes skola: Latvija un Igaunija – līdzīgas vai dažādas?"'],
+            ["2025-06-21T18:30:00", "2025-06-21T19:30:00", 'Diskusija "Vai privātskolotājs ir kļuvis par Latvijas izglītības sistēmas neatņemamu sastāvdaļu?"'],
+            ["2025-06-21T20:00:00", "2025-06-21T21:00:00", 'Diskusija "Mākslīgā intelekta revolūcija izglītībā un darbavietā: vai esam gatavi rītdienai?"'],
+        ];
+
+        const now = new Date();
+
+        const currentTalk = talkTiles.find(([from, to]) => {
+            const fromDate = new Date(from);
+            const toDate = new Date(to);
+
+            return now >= fromDate && now <= toDate;
+        });
+
+        if (currentTalk && now > eventStartDate) {
+            const talkTitle = document.getElementById('talkTitle');
+
+            const startTime = new Date(currentTalk[0]);
+            const endTime = new Date(currentTalk[1]);
+
+            const startTimeStr = startTime.getHours().toString().padStart(2, '0') + ':' +
+                                 startTime.getMinutes().toString().padStart(2, '0');
+
+            const endTimeStr = endTime.getHours().toString().padStart(2, '0') + ':' +
+                               endTime.getMinutes().toString().padStart(2, '0');
+
+            talkTitle.textContent = `${startTimeStr} - ${endTimeStr} ${currentTalk[2]}`;
+        }
+    </script>
+
+    <!-- Set event schedule -->
+    <script>
+        if (now < eventStartDate) {
+
+            // Stop the refresh interval if the event hasn't started yet
+            //window.clearInterval(window.refreshInterval);
+
+            const entries = [];
+
+            // Month names for Latvian
+            const monthNames = ["janvārī", "februārī", "martā", "aprīlī", "maijā", "jūnijā",
+                                "jūlijā", "augustā", "septembrī", "oktobrī", "novembrī", "decembrī"];
+
+            let currentDay = null;
+
+            // Process each talk
+            talkTiles.forEach(([fromStr, toStr, title]) => {
+                const fromDate = new Date(fromStr);
+                const toDate = new Date(toStr);
+
+                const day = fromDate.getDate();
+                const month = fromDate.getMonth();
+
+                // If this is a new day, add a day header
+                if (currentDay !== `${day}-${month}`) {
+                    currentDay = `${day}-${month}`;
+                    entries.push({
+                        kind: "transcript",
+                        text: `${day}. ${monthNames[month]}:`,
+                        timestamp: Date.now() + 1
+                    });
+                }
+
+                // Format time
+                const startTime = `${fromDate.getHours().toString().padStart(2, '0')}:${fromDate.getMinutes().toString().padStart(2, '0')}`;
+                const endTime = `${toDate.getHours().toString().padStart(2, '0')}:${toDate.getMinutes().toString().padStart(2, '0')}`;
+
+                // Add talk entry
+                entries.push({
+                    kind: "transcript",
+                    text: `${startTime}-${endTime} ${title}`,
+                    timestamp: Date.now() + 2
+                });
+            });
+
+            appendEntries(entries);
+        }
+    </script>
+
     <!-- Script for demo mode -->
     <script>
         const urlParams = new URLSearchParams(window.location.search);

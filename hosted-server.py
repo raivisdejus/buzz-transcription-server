@@ -20,6 +20,7 @@ CORS(app)  # Enable CORS for all routes
 PORT = int(os.environ.get('PORT', 5000))
 UPLOAD_PASSWORD = os.environ.get('UPLOAD_PASSWORD', '')
 UPLOAD_DEBUG = os.environ.get('UPLOAD_DEBUG', '')
+
 entries = []
 
 @app.route('/')
