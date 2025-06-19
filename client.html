@@ -297,8 +297,10 @@
                 lastTimestamp = Math.max(lastTimestamp, entry.timestamp);
             });
 
-            transcriptsContainer.scrollTop = transcriptsContainer.scrollHeight;
-            translationsContainer.scrollTop = translationsContainer.scrollHeight;
+            if (entries.length > 0) {
+                transcriptsContainer.scrollTop = transcriptsContainer.scrollHeight;
+                translationsContainer.scrollTop = translationsContainer.scrollHeight;
+            }
         }
 
         document.getElementById('settingsButton').addEventListener('click', () => {
@@ -312,6 +314,14 @@
         });
 
         window.refreshInterval = setInterval(() => fetchEntries(serverUrl), 1000);
+    </script>
+
+    <!-- Prevent mobile devices to going to sleep -->
+    <!-- https://github.com/richtr/NoSleep.js -->
+    <script src="NoSleep.min.js"></script>
+    <script>
+        var noSleep = new NoSleep();
+        noSleep.enable();
     </script>
 
     <!-- Set talk title -->
