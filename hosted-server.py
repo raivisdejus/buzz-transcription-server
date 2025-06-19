@@ -27,6 +27,10 @@ entries = []
 def serve_client():
     return send_file('client.html')
 
+@app.route('/NoSleep.min.js')
+def serve_nosleep_js():
+    return send_file('NoSleep.min.js')
+
 @app.route('/entries')
 def serve_entries():
     timestamp = request.args.get('timestamp', type=float)
