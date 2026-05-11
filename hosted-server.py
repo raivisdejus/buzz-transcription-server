@@ -20,12 +20,17 @@ CORS(app)  # Enable CORS for all routes
 PORT = int(os.environ.get('PORT', 5000))
 UPLOAD_PASSWORD = os.environ.get('UPLOAD_PASSWORD', '')
 UPLOAD_DEBUG = os.environ.get('UPLOAD_DEBUG', '')
+SITE_TITLE = os.environ.get('SITE_TITLE', 'Buzz transcription server')
+TALK_TITLE = os.environ.get('TALK_TITLE', 'Powered by Mozilla Common Voice data')
 
 entries = []
 
 @app.route('/')
 def serve_client():
-    return send_file('client.html')
+    with open('client.html', 'r', encoding='utf-8') as f:
+        html = f.read()
+    html = html.replace('{{SITE_TITLE}}', SITE_TITLE).replace('{{TALK_TITLE}}', TALK_TITLE)
+    return html
 
 @app.route('/NoSleep.min.js')
 def serve_nosleep_js():
