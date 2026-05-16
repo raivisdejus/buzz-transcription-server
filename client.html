@@ -256,7 +256,80 @@
     <!-- Transcript display -->
     <script>
         let lastTimestamp = 0;
-        const serverUrl = 'https://buzz-transcription-server.onrender.com/entries';
+        const serverUrl = '/entries';
+        const replaceTexts = { transcript: [], translation: [] };
+        const NO_SPACE_BETWEEN_SENTENCES = /([.!?])([A-Za-zÀ-ɏ])/g;
+
+        function findCommonPart(text1, text2) {
+            const len1 = text1.length;
+            const len2 = text2.length;
+            let maxLen = 0;
+            let endIndex = 0;
+            let prev = new Int32Array(len2 + 1);
+            let curr = new Int32Array(len2 + 1);
+            for (let i = 1; i <= len1; i++) {
+                for (let j = 1; j <= len2; j++) {
+                    if (text1[i - 1] === text2[j - 1]) {
+                        curr[j] = prev[j - 1] + 1;
+                        if (curr[j] > maxLen) {
+                            maxLen = curr[j];
+                            endIndex = i;
+                        }
+                    } else {
+                        curr[j] = 0;
+                    }
+                }
+                const tmp = prev; prev = curr; curr = tmp;
+            }
+            const commonPart = text1.slice(endIndex - maxLen, endIndex);
+            return commonPart.length >= 5 ? commonPart : '';
+        }
+
+        function mergeTextNoOverlap(text1, text2) {
+            let overlapStart = 0;
+            const max = Math.min(text1.length, text2.length);
+            for (let i = 1; i <= max; i++) {
+                if (text1.slice(text1.length - i) === text2.slice(0, i)) {
+                    overlapStart = i;
+                }
+            }
+            return text1 + text2.slice(overlapStart);
+        }
+
+        function mergedReplaceText(kind, newText) {
+            const texts = replaceTexts[kind];
+            texts.push(newText);
+
+            let lastCommonLength = null;
+            for (let i = 0; i < texts.length - 1; i++) {
+                const commonPart = findCommonPart(texts[i], texts[i + 1]);
+                if (commonPart) {
+                    const commonLength = commonPart.length;
+                    texts[i] = texts[i].slice(0, texts[i].lastIndexOf(commonPart) + commonLength);
+                    texts[i + 1] = texts[i + 1].slice(texts[i + 1].indexOf(commonPart));
+                    if (i === texts.length - 2) {
+                        lastCommonLength = commonLength;
+                    }
+                } else if (i === texts.length - 2) {
+                    lastCommonLength = null;
+                }
+            }
+
+            let displayTexts = texts.slice();
+            if (displayTexts.length > 1) {
+                if (lastCommonLength !== null) {
+                    displayTexts[displayTexts.length - 1] = displayTexts[displayTexts.length - 1].slice(0, lastCommonLength);
+                } else {
+                    displayTexts = displayTexts.slice(0, -1);
+                }
+            }
+
+            let merged = '';
+            for (const t of displayTexts) {
+                merged = mergeTextNoOverlap(merged, t);
+            }
+            return merged.replace(NO_SPACE_BETWEEN_SENTENCES, '$1 $2');
+        }
 
         function fetchEntries(serverUrl) {
             const url = `${serverUrl}?timestamp=${lastTimestamp}`;
@@ -285,14 +358,27 @@
             const transcriptsContainer = document.getElementById('transcripts');
             const translationsContainer = document.getElementById('translations');
             entries.forEach(entry => {
-                const entryDiv = document.createElement('div');
-                entryDiv.className = 'entry';
-                entryDiv.textContent = entry.text;
-
+                let targetContainer = null;
                 if (entry.kind === "transcript") {
-                    transcriptsContainer.appendChild(entryDiv);
+                    targetContainer = transcriptsContainer;
                 } else if (entry.kind === "translation") {
-                    translationsContainer.appendChild(entryDiv);
+                    targetContainer = translationsContainer;
+                }
+
+                if (targetContainer) {
+                    if (entry.mode === "replace") {
+                        const merged = mergedReplaceText(entry.kind, entry.text);
+                        targetContainer.innerHTML = '';
+                        const entryDiv = document.createElement('div');
+                        entryDiv.className = 'entry';
+                        entryDiv.textContent = merged;
+                        targetContainer.appendChild(entryDiv);
+                    } else {
+                        const entryDiv = document.createElement('div');
+                        entryDiv.className = 'entry';
+                        entryDiv.textContent = entry.text;
+                        targetContainer.appendChild(entryDiv);
+                    }
                 }
 
                 lastTimestamp = Math.max(lastTimestamp, entry.timestamp);

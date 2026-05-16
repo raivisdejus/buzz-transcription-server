@@ -83,6 +83,9 @@ def upload_entries():
         if entry['kind'] not in ['transcript', 'translation']:
             return jsonify({"error": "The 'kind' property must be 'transcript' or 'translation'"}), 400
 
+        if 'mode' in entry and entry['mode'] not in ['append', 'replace']:
+            return jsonify({"error": "The 'mode' property must be 'append' or 'replace'"}), 400
+
         entry['timestamp'] = time.time()
 
     entries.extend(new_entries)
