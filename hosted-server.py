@@ -74,21 +74,25 @@ def upload_entries():
         if not isinstance(entry, dict):
             return jsonify({"error": "Each entry must be an object"}), 400
 
-        if 'text' not in entry:
-            return jsonify({"error": "Each entry must have a 'text' property"}), 400
-
         if 'kind' not in entry:
             return jsonify({"error": "Each entry must have a 'kind' property"}), 400
 
-        if entry['kind'] not in ['transcript', 'translation']:
-            return jsonify({"error": "The 'kind' property must be 'transcript' or 'translation'"}), 400
+        if entry['kind'] not in ['transcript', 'translation', 'clear']:
+            return jsonify({"error": "The 'kind' property must be 'transcript', 'translation' or 'clear'"}), 400
+
+        if 'text' not in entry:
+            return jsonify({"error": "Each entry must have a 'text' property"}), 400
 
         if 'mode' in entry and entry['mode'] not in ['append', 'replace']:
             return jsonify({"error": "The 'mode' property must be 'append' or 'replace'"}), 400
 
         entry['timestamp'] = time.time()
 
-    entries.extend(new_entries)
+    for entry in new_entries:
+        if entry['kind'] == 'clear':
+            entries.clear()
+
+        entries.append(entry)
 
     if UPLOAD_DEBUG:
         print(f"Uploaded: {new_entries}")

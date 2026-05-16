@@ -358,6 +358,15 @@
             const transcriptsContainer = document.getElementById('transcripts');
             const translationsContainer = document.getElementById('translations');
             entries.forEach(entry => {
+                if (entry.kind === "clear") {
+                    transcriptsContainer.innerHTML = '';
+                    translationsContainer.innerHTML = '';
+                    replaceTexts.transcript = [];
+                    replaceTexts.translation = [];
+                    lastTimestamp = Math.max(lastTimestamp, entry.timestamp);
+                    return;
+                }
+
                 let targetContainer = null;
                 if (entry.kind === "transcript") {
                     targetContainer = transcriptsContainer;
