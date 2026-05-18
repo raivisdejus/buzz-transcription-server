@@ -104,7 +104,7 @@
         <!--<div class="entry">Lorem ipsūm dolor siķ āmēt, consectetur ādipiscīng elīt. Drņec tempus, nībh nec rūtrūm mātņis, ērat sapīen ūllāmčorper quām, quīs mālēsūda enīm māurīs sed orši. Nūllām vīverrā porttiķor quām, āc solīcitūdīn diām vārius egēt.</div>-->
     </div>
 
-    <div id="translations" style="display: none;">
+    <div id="translations" style="display: {{TRANSLATION_DISPLAY}};">
         <!--<div class="entry">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tempus, nibh nec rutrum mattis, erat sapien ullamcorper quam, quis malesuada enim mauris sed orci. Nullam viverra porttitor quam, ac sollicitudin diam varius eget.</div>-->
     </div>
 
@@ -121,7 +121,7 @@
                 <span class="toggle-label">Rādīt runāto / Show transcription</span>
             </label>
             <label class="toggle-switch">
-                <input type="checkbox" id="showTranslationToggle">
+                <input type="checkbox" id="showTranslationToggle" {{TRANSLATION_CHECKED}}>
                 <span class="slider"></span>
                 <span class="toggle-label">Rādīt tulkojumu / Show translation</span>
             </label>
