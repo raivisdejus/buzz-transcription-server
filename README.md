@@ -17,3 +17,4 @@ The following environment variables let you customize the client page without ed
 - `SITE_TITLE` - Text shown in the browser tab (`<title>`) and the page `<h1>`. Defaults to `Buzz transcription server`.
 - `TALK_TITLE` - Text shown in the `#talkTitle` element below the heading (used as the default/fallback talk title). Defaults to `Powered by Mozilla Common Voice data`.
 - `SHOW_TRANSLATION` - Whether the translation pane is visible by default. Set to `1`, `true`, `yes`, or `on` to show translations on page load. Defaults to hidden. Users can always toggle visibility from the settings panel.
+- `TRAFFIC_COUNTER_CODE` - Optional HTML/JS snippet injected verbatim at the bottom of the page (just before `</body>`). Use this to embed analytics or traffic-counter tags (e.g. Google Analytics, Plausible, a hit-counter `<img>`). Defaults to empty. Note: the value is inserted as raw HTML, so only set it to code you trust.

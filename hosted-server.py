@@ -23,6 +23,7 @@ UPLOAD_DEBUG = os.environ.get('UPLOAD_DEBUG', '')
 SITE_TITLE = os.environ.get('SITE_TITLE', 'Buzz transcription server')
 TALK_TITLE = os.environ.get('TALK_TITLE', 'Powered by Mozilla Common Voice data')
 SHOW_TRANSLATION = os.environ.get('SHOW_TRANSLATION', '').lower() in ('1', 'true', 'yes', 'on')
+TRAFFIC_COUNTER_CODE = os.environ.get('TRAFFIC_COUNTER_CODE', '')
 
 entries = []
 
@@ -33,6 +34,7 @@ def serve_client():
     html = html.replace('{{SITE_TITLE}}', SITE_TITLE).replace('{{TALK_TITLE}}', TALK_TITLE)
     html = html.replace('{{TRANSLATION_DISPLAY}}', 'block' if SHOW_TRANSLATION else 'none')
     html = html.replace('{{TRANSLATION_CHECKED}}', 'checked' if SHOW_TRANSLATION else '')
+    html = html.replace('{{TRAFFIC_COUNTER_CODE}}', TRAFFIC_COUNTER_CODE)
     return html
 
 @app.route('/NoSleep.min.js')
