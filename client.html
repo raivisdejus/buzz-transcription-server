@@ -258,7 +258,7 @@
         let lastTimestamp = 0;
         const serverUrl = '/entries';
         const replaceTexts = { transcript: [], translation: [] };
-        const NO_SPACE_BETWEEN_SENTENCES = /([.!?])([A-Za-zÀ-ɏ])/g;
+        const NO_SPACE_BETWEEN_SENTENCES = /([.!?。！？])([A-Z])/g;
 
         function findCommonPart(text1, text2) {
             const len1 = text1.length;
