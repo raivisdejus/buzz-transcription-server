@@ -44,7 +44,7 @@ def serve_nosleep_js():
 @app.route('/entries')
 def serve_entries():
     timestamp = request.args.get('timestamp', type=float)
-    if timestamp is not None:  # Explicitly check for None
+    if timestamp:  # Treat None and 0 the same — return the tail
         filtered_entries = [entry for entry in entries if entry['timestamp'] > timestamp]
         if filtered_entries:
             return jsonify(filtered_entries)
